@@ -6,11 +6,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterUserRoutes(router *gin.Engine, handler handler.UserHandler) {
+func RegisterUserRoutes(router *gin.Engine, userhandler handler.UserHandler) {
 	public := router.Group("/users")
-	public.GET("/", handler.GetAllUser)
-	public.GET("/:id", handler.GetUser)
-	public.POST("/:id", handler.CreateUser)
-	public.PATCH("/:id", handler.UpdateUser)
-	public.DELETE("/:id", handler.DeleteUser)
+	public.GET("/", handler.MiddlewareAuth(), userhandler.GetAllUser)
+	public.GET("/:id", handler.MiddlewareAuth(), userhandler.GetUser)
+	public.POST("/:id", handler.MiddlewareAuth(), userhandler.CreateUser)
+	public.PATCH("/:id", handler.MiddlewareAuth(), userhandler.UpdateUser)
+	public.DELETE("/:id", handler.MiddlewareAuth(), userhandler.DeleteUser)
 }
